@@ -23,7 +23,7 @@ challenges.  In this course, students will learn the fundamentals about the
 modeling, theory, ethics, and systems aspects of large language models, as
 well as gain hands-on experience working with them.
 
-## Teaching team
+## Staff
 
 {% assign instructors = site.staffers | sort: 'index' %}
 {% for staffer in instructors %}
