@@ -7,13 +7,8 @@ usemathjax: true
 ---
 
 $$
-\newcommand{\bx}{\mathbf{x}}
-\newcommand{\by}{\mathbf{y}}
-\newcommand{\bz}{\mathbf{z}}
-\newcommand{\bW}{\mathbf{W}}
-\newcommand{\bh}{\mathbf{h}}
-\newcommand{\attention}{\text{Attention}}
 \newcommand{\nl}[1]{\textsf{#1}}
+\newcommand{\attention}{\text{Attention}}
 $$
 
 Welcome to EECS 224! This is a graduate course on understanding and developing **large language models (LLMs)**.
@@ -63,16 +58,16 @@ The key mathematical concepts underlying LLMs include:
 
 ### Self-attention mechanism
 
-The core building block is self-attention, which computes weighted combinations of value vectors $$\bv$$ based on query-key compatibility:
+The core building block is self-attention, which computes weighted combinations of value vectors V based on query-key compatibility:
 
-$$\attention(\bQ, \bK, \bV) = \text{softmax}\left(\frac{\bQ\bK^\top}{\sqrt{d_k}}\right)\bV$$
+$$\attention(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
 
 Where:
-- $$\bQ \in \mathbb{R}^{n \times d_k}$$ contains query vectors
-- $$\bK \in \mathbb{R}^{n \times d_k}$$ contains key vectors  
-- $$\bV \in \mathbb{R}^{n \times d_v}$$ contains value vectors
-- $$d_k$$ is the dimension of the key/query vectors
-- $$n$$ is the sequence length
+- Q ∈ ℝ^(n × d_k) contains query vectors
+- K ∈ ℝ^(n × d_k) contains key vectors  
+- V ∈ ℝ^(n × d_v) contains value vectors
+- d_k is the dimension of the key/query vectors
+- n is the sequence length
 
 The scaling factor $$\sqrt{d_k}$$ prevents the dot products from growing too large in magnitude.
 
@@ -80,7 +75,7 @@ The scaling factor $$\sqrt{d_k}$$ prevents the dot products from growing too lar
 
 Between attention layers, we have position-wise feed-forward networks:
 
-$$\text{FFN}(\bx) = \text{ReLU}(\bx\bW_1 + \mathbf{b}_1)\bW_2 + \mathbf{b}_2$$
+$$\text{FFN}(x) = \text{ReLU}(xW_1 + b_1)W_2 + b_2$$
 
 This allows the model to process each position's representations independently.
 
