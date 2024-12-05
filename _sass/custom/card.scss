@@ -1,5 +1,5 @@
 @mixin abstract-card() {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 4px 14px rgba(0, 0, 0, 0.95);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.97), 0 4px 14px rgba(0, 0, 0, 0.95);
   margin: $sp-4 (-$gutter-spacing-sm);
 
   @include mq(md) {
