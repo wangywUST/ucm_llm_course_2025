@@ -30,7 +30,7 @@ well as gain hands-on experience working with them.
 {{ staffer }}
 {% endfor %}
 
-## Logistics
+<!-- ## Logistics
 
 **Where**: Class will by default be in person at
 [200-002](https://goo.gl/maps/8ADRSg7nJ9xZC2Zd7) (History Corner).  The first
@@ -147,3 +147,4 @@ grading, then you may submit a regrade request. **Regrade requests will only be
 accepted via Gradescope for one week after the initial grades were released.**
 Note that we may regrade your entire submission, so that depending on your
 submission you may actually lose more points than you gain.
+ -->
