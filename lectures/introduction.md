@@ -13,6 +13,7 @@ $$
 \newcommand{\bW}{\mathbf{W}}
 \newcommand{\bh}{\mathbf{h}}
 \newcommand{\attention}{\text{Attention}}
+\newcommand{\nl}[1]{\textsf{#1}}
 $$
 
 Welcome to EECS 224! This is a graduate course on understanding and developing **large language models (LLMs)**.
