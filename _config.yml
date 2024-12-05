@@ -14,9 +14,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: UCM LLM Course
-tagline: CS324 - Large Language Models
+tagline: EECS 224 - Large Language Models
 description: Understanding and developing large language models.
-author: Percy Liang
+author: Yiwei Wang
 exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
 markdown: kramdown
 
