@@ -13,14 +13,14 @@ $$
 
 Welcome to EECS 224! This is a graduate course on understanding and developing **large language models (LLMs)**.
 
+1. [What is a language model?](#what-is-a-language-model)
 1. [What are large language models?](#what-are-large-language-models)
-1. [Mathematical foundations](#mathematical-foundations)
-1. [Core architectures](#core-architectures)
-1. [Training methodology](#training-methodology)
+1. [Grading of This Course](#grading-of-this-course)
+1. [In-Course Questions](#in-course-questions)
 
-## What are large language models?
+## What is a language model?
 
-The fundamental definition of a large language model is a neural network that can process and generate text by modeling the probability distribution over sequences of tokens. Given a vocabulary $$\mathcal{V}$$ of tokens, an LLM $$p$$ assigns each sequence of tokens $$x_1,\dots,x_L \in \mathcal{V}$$ a probability:
+A language model is a probability distribution over sequences of tokens. Given a vocabulary $$\mathcal{V}$$ of tokens, a language model $$p$$ assigns each sequence of tokens $$x_1,\dots,x_L \in \mathcal{V}$$ a probability:
 
 $$p(x_1,\dots,x_L)$$
 
@@ -30,140 +30,57 @@ $$p(\nl{the}, \nl{cat}, \nl{sat}, \nl{on}, \nl{the}, \nl{mat}) = 0.01$$
 
 $$p(\nl{cat}, \nl{the}, \nl{mat}, \nl{on}, \nl{sat}) = 0.0001$$ 
 
-The second sequence gets lower probability because it's ungrammatical, demonstrating how LLMs implicitly learn **syntactic knowledge**.
+## What are large language models?
 
-### Autoregressive modeling
+Large language models are neural networks with billions to trillions of parameters, trained on massive amounts of text data. These models have several distinguishing characteristics:
 
-The joint probability $$p(x_{1:L})$$ is typically factored using the chain rule:
+1. **Scale**: Models contain billions of parameters and are trained on hundreds of billions of tokens
+2. **Architecture**: Based on the Transformer architecture with self-attention mechanisms
+3. **Emergent abilities**: Complex capabilities that emerge with scale
+4. **Few-shot learning**: Ability to adapt to new tasks with few examples
 
-$$p(x_{1:L}) = \prod_{i=1}^L p(x_i|x_{1:i-1})$$
+## Grading of This Course
 
-For example:
-```python
-def compute_probability(model, tokens):
-    prob = 1.0
-    for i in range(len(tokens)):
-        prob *= model.get_conditional_prob(tokens[i], tokens[:i])
-    return prob
-```
+The course grade will be determined by the following components:
 
-Each term $$p(x_i|x_{1:i-1})$$ represents the probability of token $$x_i$$ given all previous tokens. This autoregressive factorization enables both:
+1. **In-Course Questions** (20%)
+   - Regular questions during lectures
+   - Participation and engagement
+   - Short concept checks
 
-1. **Training**: We can maximize the likelihood of the training data
-2. **Generation**: We can sample tokens one at a time conditioned on previous tokens
+2. **Programming Assignments** (30%)
+   - 3 programming assignments throughout the quarter
+   - Implementation of key concepts
+   - Due every 3 weeks
 
-## Mathematical foundations
+3. **Midterm Project** (20%)
+   - Individual or group project
+   - Implementation and analysis of a specific LLM component
+   - Written report and code submission
 
-The key mathematical concepts underlying LLMs include:
+4. **Final Project** (30%)
+   - Group project (2-3 students)
+   - Original research or implementation
+   - Final presentation and paper
+   - Code repository with documentation
 
-### Self-attention mechanism
+## In-Course Questions
 
-The core building block is self-attention, which computes weighted combinations of value vectors V based on query-key compatibility:
+During lectures, we will have interactive questions to help reinforce key concepts and ensure understanding. These questions will cover:
 
-$$\attention(Q, K, V) = \text{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V$$
+1. **Theoretical concepts**:
+   - Language model basics
+   - Probability theory
+   - Model architectures 
 
-Where:
-- Q ∈ ℝ^(n × d_k) contains query vectors
-- K ∈ ℝ^(n × d_k) contains key vectors  
-- V ∈ ℝ^(n × d_v) contains value vectors
-- d_k is the dimension of the key/query vectors
-- n is the sequence length
+2. **Implementation details**:
+   - Code structure
+   - Algorithm design
+   - Optimization techniques
 
-The scaling factor $$\sqrt{d_k}$$ prevents the dot products from growing too large in magnitude.
+3. **Analysis and discussion**:
+   - Model behavior 
+   - Design choices
+   - Performance trade-offs
 
-### Feed-forward layers
-
-Between attention layers, we have position-wise feed-forward networks:
-
-$$\text{FFN}(x) = \text{ReLU}(xW_1 + b_1)W_2 + b_2$$
-
-This allows the model to process each position's representations independently.
-
-## Core architectures 
-
-Modern LLMs are based on the Transformer architecture, which consists of:
-
-1. **Token embeddings**: Convert discrete tokens to vectors
-2. **Positional embeddings**: Encode position information 
-3. **Multiple layers** of:
-   - Multi-head self-attention
-   - Feed-forward networks
-   - Layer normalization
-4. **Output layer**: Projects to vocabulary probabilities
-
-The basic structure looks like:
-
-```python
-class Transformer(nn.Module):
-    def __init__(self, vocab_size, d_model, nhead, num_layers):
-        super().__init__()
-        self.embedding = nn.Embedding(vocab_size, d_model)
-        self.pos_encoding = PositionalEncoding(d_model)
-        self.layers = nn.ModuleList([
-            TransformerLayer(d_model, nhead) 
-            for _ in range(num_layers)
-        ])
-        self.output = nn.Linear(d_model, vocab_size)
-    
-    def forward(self, x):
-        x = self.embedding(x)
-        x = self.pos_encoding(x)
-        for layer in self.layers:
-            x = layer(x)
-        return self.output(x)
-```
-
-## Training methodology
-
-Training large language models involves several key components:
-
-### Data preprocessing
-
-The first step is tokenization - converting raw text into integer sequences. Common approaches include:
-
-1. **Byte-pair encoding (BPE)**
-2. **WordPiece**
-3. **SentencePiece** 
-
-For example, using BPE:
-```python
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-text = "The quick brown fox"
-tokens = tokenizer.encode(text)
-# tokens: [464, 2159, 2829, 4062]
-```
-
-### Optimization
-
-Training uses variants of stochastic gradient descent with:
-
-- Large batch sizes (often thousands)
-- Learning rate scheduling
-- Gradient clipping
-- Mixed precision training
-
-The loss function is typically cross-entropy over next-token prediction:
-
-$$\mathcal{L} = -\sum_{i=1}^L \log p(x_i|x_{1:i-1})$$
-
-### Distributed training
-
-Due to model size, training requires sophisticated parallelization:
-
-1. **Data parallelism**: Split batches across devices
-2. **Model parallelism**: Split model layers across devices
-3. **Pipeline parallelism**: Different stages on different devices
-
-## Summary
-
-- LLMs are probability distributions over token sequences
-- They use Transformer architectures with self-attention
-- Training requires careful optimization and parallelization
-- Core components include tokenization, embedding, attention
-
-## Further reading
-
-1. Vaswani et al. "Attention is All You Need"
-2. Brown et al. "Language Models are Few-Shot Learners" 
-3. Kaplan et al. "Scaling Laws for Neural Language Models"
-4. Chowdhery et al. "PaLM: Scaling Language Modeling with Pathways"
+Questions will be posted during class and students should be prepared to participate in discussions.
