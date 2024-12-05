@@ -1,2 +1,15 @@
 @import "./color_schemes/dark";
 
+$body-background-color: $white;
+$body-heading-color: $grey-dk-300;
+$body-text-color: $grey-dk-100;
+$link-color: $green-000;
+$nav-child-link-color: $grey-dk-100;
+$sidebar-color: $grey-lt-000;
+$base-button-color: #f7f7f7;
+$btn-primary-color: $green-200;
+$code-background-color: $grey-lt-000; // OneDarkJekyll default for syntax-one-dark-vivid
+$feedback-color: darken($sidebar-color, 3%);
+$table-background-color: $white;
+$search-background-color: $white;
+$search-result-preview-color: $grey-dk-000;
