@@ -18,6 +18,41 @@ Welcome to EECS 224! This is a graduate course on understanding and developing *
 1. [Grading of This Course](#grading-of-this-course)
 1. [In-Course Questions](#in-course-questions)
 
+# What is Language?
+
+Language is a systematic means of communicating ideas or feelings using conventionalized signs, sounds, gestures, or marks.
+
+## Text in Language
+
+Text represents the written form of language, converting speech and meaning into visual symbols. Key aspects include:
+
+### Basic Units of Text
+
+Text can be broken down into hierarchical units:
+- Characters: The smallest meaningful units in writing systems
+- Words: Combinations of characters that carry meaning
+- Sentences: Groups of words expressing complete thoughts
+- Paragraphs: Collections of related sentences
+- Documents: Complete texts serving a specific purpose
+
+### Writing Systems
+
+Different languages employ various writing systems:
+- Alphabetic (English): Uses letters representing sounds
+- Logographic (Chinese): Uses characters representing morphemes
+- Syllabic (Japanese): Uses symbols for syllables
+
+### Text Properties
+
+Text demonstrates several key properties:
+- Linearity: Written symbols appear in sequence
+- Discreteness: Clear boundaries between units
+- Conventionality: Agreed-upon meanings within a language community
+- Structure: Follows grammatical and syntactic rules
+- Context: Meaning often depends on surrounding text
+
+![Words in documents that get filtered out of C4](../images/c4-excluded.png)
+
 # What is a Language Model?
 
 ## Mathematical Definition
