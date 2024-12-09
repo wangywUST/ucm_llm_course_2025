@@ -35,13 +35,6 @@ Text can be broken down into hierarchical units:
 - Paragraphs: Collections of related sentences
 - Documents: Complete texts serving a specific purpose
 
-### Writing Systems
-
-Different languages employ various writing systems:
-- Alphabetic (English): Uses letters representing sounds
-- Logographic (Chinese): Uses characters representing morphemes
-- Syllabic (Japanese): Uses symbols for syllables
-
 ### Text Properties
 
 Text demonstrates several key properties:
@@ -51,7 +44,155 @@ Text demonstrates several key properties:
 - Structure: Follows grammatical and syntactic rules
 - Context: Meaning often depends on surrounding text
 
+Based on the above properties shared by different langauges, the NLP researchers develop a unified Machine Learning technique to model language data -- Large Language Models. Let's start to learn this unfied language modeling technique.
+
 ![Words in documents that get filtered out of C4](../images/c4-excluded.png)
+
+# Tokenization in Language Models: Bridging Natural Language and Machine Understanding
+
+## Overview
+
+This chapter explores the fundamental role of tokenization in language models, examining how raw text is transformed into a format that machines can process effectively.
+
+## 1. Foundations of Tokenization
+
+### 1.1 Core Concepts
+
+A tokenizer transforms human-readable text into machine-processable tokens. This transformation involves:
+- Converting continuous text into discrete units
+- Mapping these units to numerical representations
+- Managing a finite vocabulary for infinite language possibilities
+
+### 1.2 Mathematical Framework
+
+The tokenization process supports the probabilistic nature of language models:
+
+$$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
+
+where each $w_i$ represents a token from the model's vocabulary.
+
+## 2. Implementation Strategies
+
+### 2.1 Byte Pair Encoding (BPE)
+
+BPE represents an iterative approach to vocabulary construction:
+
+1. Initialize with character-level tokens
+2. Identify and merge most frequent pairs
+3. Repeat until reaching desired vocabulary size
+
+Example:
+```python
+# Initial: "meeting" -> ["m", "e", "e", "t", "i", "n", "g"]
+# After BPE: "meeting" -> ["meet", "ing"]
+```
+
+### 2.2 WordPiece Tokenization
+
+WordPiece enhances BPE with linguistic considerations:
+
+1. Start with base characters
+2. Use probability-based scoring for merges
+3. Mark subword units with special symbols
+
+```python
+# Example: "playing"
+# WordPiece: ["play", "##ing"]
+```
+
+## 3. Vocabulary Considerations
+
+### 3.1 Benefits of Larger Vocabularies
+
+1. **Semantic Preservation**
+   - Maintains word-level meaning
+   - Reduces fragmentation
+   - Preserves domain-specific terms
+
+2. **Efficiency**
+   - Shorter token sequences
+   - Reduced processing overhead
+   - Better context utilization
+
+### 3.2 Challenges
+
+1. **Resource Demands**
+   - Larger embedding matrices
+   - Increased memory usage
+   - Higher computational costs
+
+2. **Learning Difficulties**
+   - Data sparsity issues
+   - Longer training time
+   - Potential overfitting
+
+## 4. Practical Implementation
+
+### 4.1 Design Decisions
+
+Consider these factors when implementing a tokenizer:
+
+1. **Domain Requirements**
+   - Language characteristics
+   - Technical vocabulary needs
+   - Performance constraints
+
+2. **Resource Constraints**
+   - Available computing power
+   - Memory limitations
+   - Processing time requirements
+
+### 4.2 Optimization Techniques
+
+1. **Efficiency Improvements**
+   - Cache frequent tokens
+   - Optimize vocabulary size
+   - Implement parallel processing
+
+2. **Quality Enhancements**
+   - Handle special cases
+   - Manage unknown tokens
+   - Address edge cases
+
+## 5. Best Practices
+
+### 5.1 Implementation Guidelines
+
+1. **Preprocessing**
+   - Clean input text
+   - Handle special characters
+   - Normalize formats
+
+2. **Error Handling**
+   - Manage unknown tokens
+   - Handle malformed input
+   - Provide fallback options
+
+### 5.2 Evaluation Methods
+
+Assess tokenizer performance through:
+1. Vocabulary coverage metrics
+2. Token sequence statistics
+3. Processing efficiency measures
+4. Model performance impact
+
+## 6. Future Developments
+
+Current research directions include:
+1. Adaptive tokenization methods
+2. Neural tokenizers
+3. Multilingual approaches
+4. Vocabulary compression techniques
+
+## 7. Conclusion
+
+Tokenization serves as the crucial interface between human language and machine processing. Understanding its principles and challenges enables better language model development and deployment.
+
+## References
+
+1. Sennrich, R., et al. (2016). Neural Machine Translation of Rare Words with Subword Units
+2. Wu, Y., et al. (2016). Google's Neural Machine Translation System
+3. Kudo, T. (2018). Subword Regularization
 
 # What is a Language Model?
 
