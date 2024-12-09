@@ -42,6 +42,47 @@ where:
 - Weight matrix: $$W$$
 - softmax normalizes the output into probabilities
 
+# Language Model Probability Distribution
+
+A language model is mathematically expressed as a probability distribution over sequences of words or tokens. Let's break down this concept:
+
+## Basic Formula
+The core equation is:
+```
+P(w₁, w₂, ..., wₙ) = ∏ᵢ P(wᵢ|w₁, ..., wᵢ₋₁)
+```
+
+This formula applies the Chain Rule of probability to decompose the joint probability into a product of conditional probabilities.
+
+## Detailed Explanation
+
+### Key Components
+- The left side `P(w₁, w₂, ..., wₙ)` represents the probability of the entire sequence occurring
+- The right side breaks this down into the product of conditional probabilities for each word given its preceding context
+
+### Real-world Example
+Consider the sentence "I love eating apples". The probability would be broken down as:
+- P(I)
+- P(love|I)
+- P(eating|I love)
+- P(apples|I love eating)
+
+## Advantages of This Approach
+
+### 1. Intuitive Alignment
+This mathematical representation aligns with how humans process language - we naturally predict each word based on the previous context rather than randomly combining words.
+
+### 2. Computational Efficiency
+While calculating the probability of an entire sentence directly would be challenging, predicting the next word given a context is more manageable.
+
+### 3. Context Capture
+This formulation allows the model to capture long-term dependencies in language, as each word's prediction is based on all previous words in the sequence.
+
+## Conclusion
+This isn't simply a factorial multiplication, but rather a product of conditional probabilities. This mathematical expression accurately describes the language generation process: each word is predicted based on the words that came before it.
+
+This approach forms the foundation of modern language models, enabling them to generate coherent and contextually appropriate text by learning these probability distributions from training data.
+
 ## Types of Language Models
 
 1. **Statistical Language Models (SLM)**
