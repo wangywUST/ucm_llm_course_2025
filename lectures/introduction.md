@@ -18,17 +18,27 @@ Welcome to EECS 224! This is a graduate course on understanding and developing *
 1. [Grading of This Course](#grading-of-this-course)
 1. [In-Course Questions](#in-course-questions)
 
-## What is a language model?
+# What is a Language Model?
 
-A language model is a probability distribution over sequences of tokens. Given a vocabulary $$\mathcal{V}$$ of tokens, a language model $$p$$ assigns each sequence of tokens $$x_1,\dots,x_L \in \mathcal{V}$$ a probability:
+## Mathematical Definition
 
-$$p(x_1,\dots,x_L)$$
+A language model is fundamentally a probability distribution over sequences of words or tokens. Mathematically, it can be expressed as:
 
-This probability represents how likely the sequence is according to the model's training. For example, with a vocabulary $$\mathcal{V} = \{\nl{the}, \nl{cat}, \nl{sat}, \nl{on}, \nl{mat}\}$$, the model might assign:
+$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$
 
-$$p(\nl{the}, \nl{cat}, \nl{sat}, \nl{on}, \nl{the}, \nl{mat}) = 0.01$$
+where:
+- $w_1, w_2, ..., w_n$ represents a sequence of words or tokens
+- $P(w_i|w_1, ..., w_{i-1})$ is the conditional probability of word $w_i$ given all previous words
 
-$$p(\nl{cat}, \nl{the}, \nl{mat}, \nl{on}, \nl{sat}) = 0.0001$$ 
+For practical implementation, this often takes the form:
+
+$P(w_t|context) = softmax(h(context) \cdot W)$
+
+where:
+- $w_t$ is the target word
+- $h(context)$ is a context encoding function
+- $W$ is a weight matrix
+- softmax normalizes the output into probabilities
 
 ## What are large language models?
 
