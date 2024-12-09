@@ -28,33 +28,42 @@ $$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
 
 where:
 - $$w_1, w_2, ..., w_n$$ represents a sequence of words or tokens
-- $$P(w_i|w_1, ..., w_{i-1})$$ is the conditional probability of word $$w_i$$ given all previous words
+- The conditional probability of word $$w_i$$ given all previous words is:
+
+  $$P(w_i|w_1, ..., w_{i-1})$$
 
 For practical implementation, this often takes the form:
 
 $$P(w_t|context) = \text{softmax}(h(context) \cdot W)$$
 
 where:
-- $$w_t$$ is the target word
-- $$h(context)$$ is a context encoding function
-- $$W$$ is a weight matrix
+- Target word: $$w_t$$
+- Context encoding function: $$h(context)$$
+- Weight matrix: $$W$$
 - softmax normalizes the output into probabilities
 
 ## Types of Language Models
 
 1. **Statistical Language Models (SLM)**
    - Based on n-gram probability:
+   
    $$P(w_n|w_1...w_{n-1}) \approx P(w_n|w_{n-k}...w_{n-1})$$
+   
    - Limited by the Markov assumption
 
 2. **Neural Language Models (NLM)**
-   - Uses neural networks to learn $$P(w_t|context)$$
+   - Uses neural networks to learn
+
+   $$P(w_t|context)$$
+   
    - Can handle longer dependencies
    - Examples: LSTM, GRU based models
 
 3. **Transformer-based Models**
    - Uses attention mechanism:
+   
    $$\text{Attention}(Q,K,V) = \text{softmax}(\frac{QK^T}{\sqrt{d}})V$$
+   
    - Where Q (Query), K (Key), V (Value) are learned matrices
 
 ## What are large language models?
