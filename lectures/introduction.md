@@ -42,45 +42,32 @@ where:
 - Weight matrix: $$W$$
 - softmax normalizes the output into probabilities
 
-# Language Model Probability Distribution
+# Why Use Conditional Probability in Language Models?
 
-A language model is mathematically expressed as a probability distribution over sequences of words or tokens. Let's break down this concept:
-
-## Basic Formula
-The core equation is:
+The fundamental reason for expressing language models using conditional probability:
 
 $$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
 
-This formula applies the Chain Rule of probability to decompose the joint probability into a product of conditional probabilities.
+lies in the reduction of prediction space.
 
-## Detailed Explanation
+## Comparing the Prediction Spaces
 
-### Key Components
-- The left side $$P(w_1, w_2, ..., w_n)$$ represents the probability of the entire sequence occurring
-- The right side breaks this down into the product of conditional probabilities for each word given its preceding context
+### Joint Probability Approach
+When directly predicting P(w₁,...,wₙ):
+- With vocabulary size V
+- Need to predict V^n possible combinations
+- Results in an exponential prediction space
 
-### Real-world Example
-Consider the sentence "I love eating apples". The probability would be broken down as:
-- $$P(I)$$
-- $$P(love|I)$$
-- $$P(eating|I\space love)$$
-- $$P(apples|I\space love\space eating)$$
+### Conditional Probability Approach
+When using conditional decomposition:
+- Only need to predict one word at each step
+- Each prediction considers V possibilities
+- Total prediction space reduces from V^n to n×V
 
-## Advantages of This Approach
+## Key Insight
+This dramatic reduction in prediction space is what makes neural network approximation feasible. All other claimed benefits (like intuitive alignment, computational efficiency, or context capture) are not actual advantages of the conditional probability formulation.
 
-### 1. Intuitive Alignment
-This mathematical representation aligns with how humans process language - we naturally predict each word based on the previous context rather than randomly combining words.
-
-### 2. Computational Efficiency
-While calculating the probability of an entire sentence directly would be challenging, predicting the next word given a context is more manageable.
-
-### 3. Context Capture
-This formulation allows the model to capture long-term dependencies in language, as each word's prediction is based on all previous words in the sequence.
-
-## Conclusion
-This isn't simply a factorial multiplication, but rather a product of conditional probabilities. This mathematical expression accurately describes the language generation process: each word is predicted based on the words that came before it.
-
-This approach forms the foundation of modern language models, enabling them to generate coherent and contextually appropriate text by learning these probability distributions from training data.
+The ability to constrain each prediction step to a manageable vocabulary-sized space is the core reason why language models are structured this way.
 
 ## Types of Language Models
 
