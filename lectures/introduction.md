@@ -48,24 +48,23 @@ A language model is mathematically expressed as a probability distribution over 
 
 ## Basic Formula
 The core equation is:
-```
-P(w₁, w₂, ..., wₙ) = ∏ᵢ P(wᵢ|w₁, ..., wᵢ₋₁)
-```
+
+$$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
 
 This formula applies the Chain Rule of probability to decompose the joint probability into a product of conditional probabilities.
 
 ## Detailed Explanation
 
 ### Key Components
-- The left side `P(w₁, w₂, ..., wₙ)` represents the probability of the entire sequence occurring
+- The left side $$P(w_1, w_2, ..., w_n)$$ represents the probability of the entire sequence occurring
 - The right side breaks this down into the product of conditional probabilities for each word given its preceding context
 
 ### Real-world Example
 Consider the sentence "I love eating apples". The probability would be broken down as:
-- P(I)
-- P(love|I)
-- P(eating|I love)
-- P(apples|I love eating)
+- $$P(I)$$
+- $$P(love|I)$$
+- $$P(eating|I\space love)$$
+- $$P(apples|I\space love\space eating)$$
 
 ## Advantages of This Approach
 
