@@ -69,30 +69,6 @@ This dramatic reduction in prediction space is what makes neural network approxi
 
 The ability to constrain each prediction step to a manageable vocabulary-sized space is the core reason why language models are structured this way.
 
-## Types of Language Models
-
-1. **Statistical Language Models (SLM)**
-   - Based on n-gram probability:
-   
-   $$P(w_n|w_1...w_{n-1}) \approx P(w_n|w_{n-k}...w_{n-1})$$
-   
-   - Limited by the Markov assumption
-
-2. **Neural Language Models (NLM)**
-   - Uses neural networks to learn
-
-   $$P(w_t|context)$$
-   
-   - Can handle longer dependencies
-   - Examples: LSTM, GRU based models
-
-3. **Transformer-based Models**
-   - Uses attention mechanism:
-   
-   $$\text{Attention}(Q,K,V) = \text{softmax}(\frac{QK^T}{\sqrt{d}})V$$
-   
-   - Where Q (Query), K (Key), V (Value) are learned matrices
-
 ## What are large language models?
 
 Large language models are neural networks with billions to trillions of parameters, trained on massive amounts of text data. These models have several distinguishing characteristics:
