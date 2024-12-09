@@ -44,30 +44,85 @@ where:
 
 # Why Use Conditional Probability in Language Models?
 
-The fundamental reason for expressing language models using conditional probability:
+### Core Insight
+From a classification perspective, the number of categories directly impacts the learning difficulty - more categories require exponentially more training data to achieve adequate coverage.
 
-$$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
+### Comparing Two Approaches
 
-lies in the reduction of prediction space.
+#### Joint Probability Approach
+When modeling $$P(w_1,...,w_n)$$ directly:
+- Needs to predict $$V^n$$ categories
+- Requires seeing enough samples of each possible sentence
+- Most long sequences may never appear in training data
+- Makes learning practically impossible
 
-## Comparing the Prediction Spaces
+#### Conditional Probability Approach
+When modeling $$P(w_i|w_1,...,w_{i-1})$$:
+- Only predicts $$V$$ categories at each step
+- Each word position provides a training sample
+- Same words in different contexts contribute learning signals
+- Dramatically improves data efficiency
 
-### Joint Probability Approach
-When directly predicting $$P(w_1,...,w_n)$$:
-- With vocabulary size $$V$$
-- Need to predict $$V^n$$ possible combinations
-- Results in an exponential prediction space
+### Numerical Example
+Consider a language model with:
+- Vocabulary size $$V = 10,000$$
+- Sequence length $$n = 5$$
 
-### Conditional Probability Approach
-When using conditional decomposition:
-- Only need to predict one word at each step
-- Each prediction considers $$V$$ possibilities
-- Total prediction space reduces from $$V^n$$ to $$n \times V$$
+Then:
+- Joint probability: Must learn $$10,000^5$$ categories
+- Conditional probability: Must learn $$10,000$$ categories at each step
 
-## Key Insight
-This dramatic reduction in prediction space is what makes neural network approximation feasible. All other claimed benefits (like intuitive alignment, computational efficiency, or context capture) are not actual advantages of the conditional probability formulation.
+### Why This Matters
+1. Training Data Requirements
+- More categories require more training examples
+- Each category needs sufficient representation
+- Data requirements grow exponentially with category count
 
-The ability to constrain each prediction step to a manageable vocabulary-sized space is the core reason why language models are structured this way.
+2. Learning Efficiency
+- Smaller category spaces are easier to model
+- More efficient use of training data
+- Each word occurrence contributes to learning
+
+3. Statistical Coverage
+- Impossible to see all possible sequences
+- But possible to see all words in various contexts
+- Makes learning feasible with finite training data
+
+### Conclusion
+The conditional probability formulation cleverly transforms an intractable large-scale classification problem into a series of manageable smaller classification problems. This is the fundamental reason why language models can learn effectively from finite training data.
+
+## Real-world Application: Text Completion
+
+### The Prefix-based Generation Task
+In practical applications, we often:
+- Have a fixed prefix of text
+- Need to predict/generate the continuation
+- Don't need to generate text from scratch
+
+### Examples
+1. Auto-completion
+- Code completion in IDEs
+- Search query suggestions
+- Email text completion
+
+2. Text Generation
+- Story continuation
+- Dialogue response generation
+- Document completion
+
+### Why Conditional Probability Helps
+The formulation $$P(w_i|w_1,...,w_{i-1})$$ naturally fits this scenario because:
+- We can directly condition on the given prefix
+- No need to model the probability of the prefix itself
+- Can focus computational resources on predicting what comes next
+
+### Comparison with Joint Probability
+The joint probability $$P(w_1,...,w_n)$$ would be less suitable because:
+- Would need to model probability of the fixed prefix
+- Wastes computation on already-known parts
+- Doesn't directly give us what we want (continuation probability)
+
+This alignment between the mathematical formulation and practical use cases is another key advantage of the conditional probability approach in language modeling.
 
 ## What are large language models?
 
