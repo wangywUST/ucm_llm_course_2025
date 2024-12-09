@@ -53,16 +53,16 @@ lies in the reduction of prediction space.
 ## Comparing the Prediction Spaces
 
 ### Joint Probability Approach
-When directly predicting P(w₁,...,wₙ):
-- With vocabulary size V
-- Need to predict V^n possible combinations
+When directly predicting $$P(w_1,...,w_n)$$:
+- With vocabulary size $$V$$
+- Need to predict $$V^n$$ possible combinations
 - Results in an exponential prediction space
 
 ### Conditional Probability Approach
 When using conditional decomposition:
 - Only need to predict one word at each step
-- Each prediction considers V possibilities
-- Total prediction space reduces from V^n to n×V
+- Each prediction considers $$V$$ possibilities
+- Total prediction space reduces from $$V^n$$ to $$n \times V$$
 
 ## Key Insight
 This dramatic reduction in prediction space is what makes neural network approximation feasible. All other claimed benefits (like intuitive alignment, computational efficiency, or context capture) are not actual advantages of the conditional probability formulation.
