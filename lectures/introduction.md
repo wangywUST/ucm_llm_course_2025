@@ -54,145 +54,203 @@ Based on the above properties shared by different langauges, the NLP researchers
 
 This chapter explores the fundamental role of tokenization in language models, examining how raw text is transformed into a format that machines can process effectively.
 
-## 1. Foundations of Tokenization
+## Foundations of Tokenization
 
-### 1.1 Core Concepts
+### Core Concepts
 
 A tokenizer transforms human-readable text into machine-processable tokens. This transformation involves:
 - Converting continuous text into discrete units
 - Mapping these units to numerical representations
 - Managing a finite vocabulary for infinite language possibilities
 
-### 1.2 Mathematical Framework
+### Mathematical Framework
 
 The tokenization process supports the probabilistic nature of language models:
 
 $$P(w_1, w_2, ..., w_n) = \prod_i P(w_i|w_1, ..., w_{i-1})$$
 
-where each $w_i$ represents a token from the model's vocabulary.
+Where $$w_i$$ represents a token from the model's vocabulary. For practical implementation, we often use:
 
-## 2. Implementation Strategies
+$$P(w_t|context) = \text{softmax}(h(context) \cdot W)$$
 
-### 2.1 Byte Pair Encoding (BPE)
+Where:
+- Target word: $$w_t$$
+- Context encoding function: $$h(context)$$
+- Weight matrix: $$W$$
+
+## Implementation Strategies
+
+### Byte Pair Encoding (BPE)
 
 BPE represents an iterative approach to vocabulary construction:
 
-1. Initialize with character-level tokens
-2. Identify and merge most frequent pairs
-3. Repeat until reaching desired vocabulary size
-
-Example:
 ```python
-# Initial: "meeting" -> ["m", "e", "e", "t", "i", "n", "g"]
-# After BPE: "meeting" -> ["meet", "ing"]
+def train_bpe(texts, vocab_size):
+    # Initialize vocabulary with characters
+    vocab = set(''.join(texts))
+    
+    while len(vocab) < vocab_size:
+        # Find most frequent pair
+        pairs = get_most_frequent_pair(texts)
+        if not pairs:
+            break
+            
+        # Merge most frequent pair
+        most_freq = max(pairs, key=pairs.get)
+        vocab.add(''.join(most_freq))
+        
+        # Update texts with merged pair
+        texts = [merge_pair(text, most_freq) for text in texts]
+    
+    return vocab
 ```
 
-### 2.2 WordPiece Tokenization
+### WordPiece Tokenization
 
 WordPiece enhances BPE with linguistic considerations:
 
-1. Start with base characters
-2. Use probability-based scoring for merges
-3. Mark subword units with special symbols
-
 ```python
-# Example: "playing"
-# WordPiece: ["play", "##ing"]
+class WordPieceTokenizer:
+    def __init__(self, vocab_size=30000):
+        self.vocab_size = vocab_size
+        self.vocab = set()
+        
+    def train(self, texts):
+        # Initialize with characters
+        self.vocab = self._get_base_vocab(texts)
+        
+        while len(self.vocab) < self.vocab_size:
+            # Find best merge based on likelihood
+            best_score = float('-inf')
+            best_pair = None
+            
+            for pair in self._get_pairs(texts):
+                score = self._calculate_score(pair, texts)
+                if score > best_score:
+                    best_score = score
+                    best_pair = pair
+                    
+            if not best_pair:
+                break
+                
+            # Add merged token to vocabulary
+            self.vocab.add(''.join(best_pair))
 ```
 
-## 3. Vocabulary Considerations
+## Vocabulary Considerations
 
-### 3.1 Benefits of Larger Vocabularies
+### Benefits of Larger Vocabularies
 
-1. **Semantic Preservation**
-   - Maintains word-level meaning
-   - Reduces fragmentation
-   - Preserves domain-specific terms
+**Semantic Preservation**
+- Maintains word-level meaning
+- Reduces fragmentation
+- Preserves domain-specific terms
 
-2. **Efficiency**
-   - Shorter token sequences
-   - Reduced processing overhead
-   - Better context utilization
+**Efficiency**
+- Shorter token sequences
+- Reduced processing overhead
+- Better context utilization
 
-### 3.2 Challenges
+### Probabilistic Analysis
 
-1. **Resource Demands**
-   - Larger embedding matrices
-   - Increased memory usage
-   - Higher computational costs
+The effectiveness of vocabulary size can be measured using information theory:
 
-2. **Learning Difficulties**
-   - Data sparsity issues
-   - Longer training time
-   - Potential overfitting
+$$H(V) = -\sum_{i=1}^{|V|} p(w_i) \log p(w_i)$$
 
-## 4. Practical Implementation
+Where:
+- $$H(V)$$ is the entropy of vocabulary $$V$$
+- $$p(w_i)$$ is the probability of token $$w_i$$
+- $$|V|$$ is the vocabulary size
 
-### 4.1 Design Decisions
+### Optimization Function
+
+The optimal vocabulary size can be found by minimizing:
+
+$$L(V) = H(V) + \lambda|V|$$
+
+Where $$\lambda$$ is a regularization parameter balancing vocabulary size and entropy.
+
+### Challenges
+
+**Resource Demands**
+- Larger embedding matrices
+- Increased memory usage
+- Higher computational costs
+
+**Learning Difficulties**
+- Data sparsity issues
+- Longer training time
+- Potential overfitting
+
+## Practical Implementation
+
+### Design Decisions
 
 Consider these factors when implementing a tokenizer:
 
-1. **Domain Requirements**
-   - Language characteristics
-   - Technical vocabulary needs
-   - Performance constraints
+**Domain Requirements**
+- Language characteristics
+- Technical vocabulary needs
+- Performance constraints
 
-2. **Resource Constraints**
-   - Available computing power
-   - Memory limitations
-   - Processing time requirements
+**Resource Constraints**
+- Available computing power
+- Memory limitations
+- Processing time requirements
 
-### 4.2 Optimization Techniques
+### Optimization Techniques
 
-1. **Efficiency Improvements**
-   - Cache frequent tokens
-   - Optimize vocabulary size
-   - Implement parallel processing
+**Efficiency Improvements**
+- Cache frequent tokens
+- Optimize vocabulary size
+- Implement parallel processing
 
-2. **Quality Enhancements**
-   - Handle special cases
-   - Manage unknown tokens
-   - Address edge cases
+**Quality Enhancements**
+- Handle special cases
+- Manage unknown tokens
+- Address edge cases
 
-## 5. Best Practices
+## Best Practices
 
-### 5.1 Implementation Guidelines
+### Implementation Guidelines
 
-1. **Preprocessing**
-   - Clean input text
-   - Handle special characters
-   - Normalize formats
+**Preprocessing**
+- Clean input text
+- Handle special characters
+- Normalize formats
 
-2. **Error Handling**
-   - Manage unknown tokens
-   - Handle malformed input
-   - Provide fallback options
+**Error Handling**
+- Manage unknown tokens
+- Handle malformed input
+- Provide fallback options
 
-### 5.2 Evaluation Methods
+### Evaluation Methods
 
-Assess tokenizer performance through:
-1. Vocabulary coverage metrics
-2. Token sequence statistics
-3. Processing efficiency measures
-4. Model performance impact
+Monitor these key metrics:
+- Vocabulary coverage
+- Token sequence statistics
+- Processing efficiency
+- Model performance impact
 
-## 6. Future Developments
+## Future Developments
 
-Current research directions include:
-1. Adaptive tokenization methods
-2. Neural tokenizers
-3. Multilingual approaches
-4. Vocabulary compression techniques
+Current research focuses on:
+- Adaptive tokenization methods
+- Neural tokenizers
+- Multilingual approaches
+- Vocabulary compression techniques
 
-## 7. Conclusion
+## Conclusion
 
-Tokenization serves as the crucial interface between human language and machine processing. Understanding its principles and challenges enables better language model development and deployment.
+Tokenization serves as the crucial interface between human language and machine processing. Understanding its principles and challenges enables better language model development and deployment. The field continues to evolve with new approaches and optimizations, driven by the increasing demands of modern language models.
 
 ## References
 
 1. Sennrich, R., et al. (2016). Neural Machine Translation of Rare Words with Subword Units
 2. Wu, Y., et al. (2016). Google's Neural Machine Translation System
 3. Kudo, T. (2018). Subword Regularization
+4. Vaswani, A., et al. (2017). Attention Is All You Need
+5. Clark, K., et al. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding
 
 # What is a Language Model?
 
