@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures  
-title: Introduction to Large Language Models
+title: Overview of Large Language Models
 nav_order: 1
 usemathjax: true
 ---
@@ -522,49 +522,3 @@ Large language models are neural networks with billions to trillions of paramete
 2. **Architecture**: Based on the Transformer architecture with self-attention mechanisms
 3. **Emergent abilities**: Complex capabilities that emerge with scale
 4. **Few-shot learning**: Ability to adapt to new tasks with few examples
-
-## Grading of This Course
-
-The course grade will be determined by the following components:
-
-1. **In-Course Questions** (20%)
-   - Regular questions during lectures
-   - Participation and engagement
-   - Short concept checks
-
-2. **Programming Assignments** (30%)
-   - 3 programming assignments throughout the quarter
-   - Implementation of key concepts
-   - Due every 3 weeks
-
-3. **Midterm Project** (20%)
-   - Individual or group project
-   - Implementation and analysis of a specific LLM component
-   - Written report and code submission
-
-4. **Final Project** (30%)
-   - Group project (2-3 students)
-   - Original research or implementation
-   - Final presentation and paper
-   - Code repository with documentation
-
-## In-Course Questions
-
-During lectures, we will have interactive questions to help reinforce key concepts and ensure understanding. These questions will cover:
-
-1. **Theoretical concepts**:
-   - Language model basics
-   - Probability theory
-   - Model architectures 
-
-2. **Implementation details**:
-   - Code structure
-   - Algorithm design
-   - Optimization techniques
-
-3. **Analysis and discussion**:
-   - Model behavior 
-   - Design choices
-   - Performance trade-offs
-
-Questions will be posted during class and students should be prepared to participate in discussions.
