@@ -52,7 +52,7 @@ Based on the above properties shared by different langauges, the NLP researchers
 
 ## Overview
 
-This chapter explores the fundamental role of tokenization in language models, examining how raw text is transformed into a format that machines can process effectively.
+This chapter explores the fundamental role of tokenization in language models, examining how raw text is transformed into a format that machines can process effectively. As the bridge between human language and machine understanding, tokenization is crucial for the performance of modern language models.
 
 ## Foundations of Tokenization
 
@@ -78,11 +78,13 @@ Where:
 - Context encoding function: $$h(context)$$
 - Weight matrix: $$W$$
 
-## Implementation Strategies
+## Vocabulary Construction
 
-### Byte Pair Encoding (BPE)
+### Algorithms
 
-BPE represents an iterative approach to vocabulary construction:
+#### Byte Pair Encoding (BPE)
+
+BPE is an iterative approach to vocabulary construction that starts with character-level tokens and progressively merges the most frequent pairs. This algorithm is particularly effective for handling rare words and morphologically rich languages.
 
 ```python
 def train_bpe(texts, vocab_size):
@@ -105,9 +107,9 @@ def train_bpe(texts, vocab_size):
     return vocab
 ```
 
-### WordPiece Tokenization
+#### WordPiece
 
-WordPiece enhances BPE with linguistic considerations:
+WordPiece enhances BPE by incorporating linguistic considerations and using a probability-based scoring mechanism for merging decisions:
 
 ```python
 class WordPieceTokenizer:
@@ -137,20 +139,6 @@ class WordPieceTokenizer:
             self.vocab.add(''.join(best_pair))
 ```
 
-## Vocabulary Considerations
-
-### Benefits of Larger Vocabularies
-
-**Semantic Preservation**
-- Maintains word-level meaning
-- Reduces fragmentation
-- Preserves domain-specific terms
-
-**Efficiency**
-- Shorter token sequences
-- Reduced processing overhead
-- Better context utilization
-
 ### Probabilistic Analysis
 
 The effectiveness of vocabulary size can be measured using information theory:
@@ -170,6 +158,224 @@ $$L(V) = H(V) + \lambda|V|$$
 
 Where $$\lambda$$ is a regularization parameter balancing vocabulary size and entropy.
 
+## Text to Token Conversion
+
+The process of converting text into tokens is a crucial step that follows vocabulary construction. This process involves several key components and considerations.
+
+### Tokenization Process
+
+#### Preprocessing
+
+Text preprocessing ensures consistent input quality and includes several essential steps:
+- Text normalization (case standardization)
+- Special character handling
+- Whitespace normalization
+- Punctuation processing
+
+Here's a basic implementation:
+
+```python
+def preprocess_text(text):
+    # Lowercase normalization
+    text = text.lower()
+    # Handle special characters
+    text = handle_special_chars(text)
+    # Handle whitespace
+    text = normalize_whitespace(text)
+    return text
+```
+
+#### Token Lookup Strategies
+
+After preprocessing, the text needs to be segmented into tokens using appropriate strategies.
+
+##### Greedy Longest Match
+
+This algorithm attempts to find the longest possible match in the vocabulary at each step. Benefits include:
+- Maintains word integrity
+- Reduces total token count
+- Avoids oversegmentation
+
+```python
+def greedy_tokenize(text, vocab):
+    tokens = []
+    while text:
+        # Try to find longest matching token
+        longest_match = None
+        for i in range(len(text), 0, -1):
+            if text[:i] in vocab:
+                longest_match = text[:i]
+                break
+        
+        if longest_match:
+            tokens.append(longest_match)
+            text = text[len(longest_match):]
+        else:
+            # Handle unknown tokens
+            tokens.append("[UNK]")
+            text = text[1:]
+    
+    return tokens
+```
+
+##### Forward Maximum Matching
+
+This approach uses a maximum length window to improve efficiency:
+- Controls search space
+- Improves processing speed
+- Suitable for long texts
+
+```python
+def forward_tokenize(text, vocab, max_token_length=100):
+    tokens = []
+    start = 0
+    
+    while start < len(text):
+        end = min(start + max_token_length, len(text))
+        found = False
+        
+        while end > start:
+            token = text[start:end]
+            if token in vocab:
+                tokens.append(token)
+                start = end
+                found = True
+                break
+            end -= 1
+            
+        if not found:
+            tokens.append("[UNK]")
+            start += 1
+            
+    return tokens
+```
+
+### Special Token Handling
+
+Special tokens play crucial roles in modern language models, carrying specific functions and semantic information.
+
+#### Common Special Tokens
+
+Each special token serves a specific purpose:
+- `[PAD]`: Used for sequence length alignment in batch processing
+- `[UNK]`: Handles out-of-vocabulary words
+- `[CLS]`: Special marker for classification tasks
+- `[SEP]`: Separates different sentences or passages
+- `[MASK]`: Used in masked language model training
+
+Complete tokenizer implementation with special token handling:
+
+```python
+class Tokenizer:
+    def __init__(self, vocab):
+        self.vocab = vocab
+        self.special_tokens = {
+            "[PAD]": 0,
+            "[UNK]": 1,
+            "[CLS]": 2,
+            "[SEP]": 3,
+            "[MASK]": 4
+        }
+        
+    def encode(self, text, max_length=None):
+        # Preprocess text
+        text = preprocess_text(text)
+        
+        # Tokenize
+        tokens = self.greedy_tokenize(text)
+        
+        # Convert to IDs and add special tokens
+        ids = [self.special_tokens["[CLS]"]]
+        ids.extend([self.vocab.get(token, self.special_tokens["[UNK]"]) 
+                   for token in tokens])
+        ids.append(self.special_tokens["[SEP]"])
+        
+        # Handle max length
+        if max_length:
+            if len(ids) > max_length:
+                ids = ids[:max_length-1] + [self.special_tokens["[SEP]"]]
+            else:
+                ids.extend([self.special_tokens["[PAD]"]] * 
+                          (max_length - len(ids)))
+        
+        return ids
+```
+
+### Batch Processing
+
+In practical applications, texts are usually processed in batches, requiring sequence length alignment and attention masks.
+
+#### Padding and Attention Masks
+
+Batch processing involves two key steps:
+1. Sequence length unification (padding)
+2. Attention mask generation (marking valid tokens)
+
+```python
+def prepare_batch(texts, tokenizer, max_length):
+    # Tokenize all texts
+    token_ids = [tokenizer.encode(text, max_length) for text in texts]
+    
+    # Create attention masks
+    attention_masks = [
+        [1 if token_id != tokenizer.special_tokens["[PAD]"] else 0 
+         for token_id in ids]
+        for ids in token_ids
+    ]
+    
+    return {
+        "input_ids": token_ids,
+        "attention_mask": attention_masks
+    }
+```
+
+### Decoding Process
+
+The decoding process converts token sequences back to readable text, with special consideration for subword handling.
+
+#### Token to Text Conversion
+
+Key considerations during decoding:
+- Special token filtering
+- Subword merging
+- Whitespace handling
+
+```python
+def decode(self, token_ids):
+    # Filter special tokens
+    tokens = [self.id_to_token[id] for id in token_ids 
+             if id not in self.special_tokens.values()]
+    
+    # Handle subwords
+    text = ""
+    for token in tokens:
+        if token.startswith("##"):  # BERT-style subwords
+            text += token[2:]
+        else:
+            text += " " + token
+    
+    return text.strip()
+```
+
+Different tokenizers use different subword marking conventions:
+- BERT uses ## prefix
+- GPT uses Ġ prefix
+- SentencePiece uses _ prefix
+
+## Vocabulary Considerations
+
+### Benefits of Larger Vocabularies
+
+**Semantic Preservation**
+- Maintains word-level meaning
+- Reduces fragmentation
+- Preserves domain-specific terms
+
+**Efficiency**
+- Shorter token sequences
+- Reduced processing overhead
+- Better context utilization
+
 ### Challenges
 
 **Resource Demands**
@@ -182,59 +388,9 @@ Where $$\lambda$$ is a regularization parameter balancing vocabulary size and en
 - Longer training time
 - Potential overfitting
 
-## Practical Implementation
-
-### Design Decisions
-
-Consider these factors when implementing a tokenizer:
-
-**Domain Requirements**
-- Language characteristics
-- Technical vocabulary needs
-- Performance constraints
-
-**Resource Constraints**
-- Available computing power
-- Memory limitations
-- Processing time requirements
-
-### Optimization Techniques
-
-**Efficiency Improvements**
-- Cache frequent tokens
-- Optimize vocabulary size
-- Implement parallel processing
-
-**Quality Enhancements**
-- Handle special cases
-- Manage unknown tokens
-- Address edge cases
-
-## Best Practices
-
-### Implementation Guidelines
-
-**Preprocessing**
-- Clean input text
-- Handle special characters
-- Normalize formats
-
-**Error Handling**
-- Manage unknown tokens
-- Handle malformed input
-- Provide fallback options
-
-### Evaluation Methods
-
-Monitor these key metrics:
-- Vocabulary coverage
-- Token sequence statistics
-- Processing efficiency
-- Model performance impact
-
 ## Future Developments
 
-Current research focuses on:
+Current research directions include:
 - Adaptive tokenization methods
 - Neural tokenizers
 - Multilingual approaches
@@ -242,7 +398,7 @@ Current research focuses on:
 
 ## Conclusion
 
-Tokenization serves as the crucial interface between human language and machine processing. Understanding its principles and challenges enables better language model development and deployment. The field continues to evolve with new approaches and optimizations, driven by the increasing demands of modern language models.
+Tokenization serves as the crucial interface between human language and machine processing. Understanding its principles, from vocabulary construction to text conversion, enables better language model development and deployment. As the field evolves, new approaches and optimizations continue to emerge, driven by the increasing demands of modern language models.
 
 ## References
 
