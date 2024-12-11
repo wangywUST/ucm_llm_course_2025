@@ -143,12 +143,12 @@ class WordPieceTokenizer:
 
 The effectiveness of vocabulary size can be measured using information theory:
 
-$$H(V) = -\sum_{i=1}^{|V|} p(w_i) \log p(w_i)$$
-
+$$H(V) = -\sum_{i=1}^{\text{size}(V)} p(w_i) \log p(w_i)$$
 Where:
-- $$H(V)$$ is the entropy of vocabulary $$V$$
-- $$p(w_i)$$ is the probability of token $$w_i$$
-- $$|V|$$ is the vocabulary size
+
+$$H(V)$$ is the entropy of vocabulary $$V$$
+$$\text{size}(V)$$ represents the total number of tokens in vocabulary
+$$p(w_i)$$ is the probability of token $$w_i$$ occurring in the corpus
 
 ### Optimization Function
 
