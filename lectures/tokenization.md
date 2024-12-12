@@ -45,7 +45,7 @@ Tokenization is a fundamental concept in Natural Language Processing (NLP) that 
 3. **Subword Tokenization**
    - Breaks words into meaningful subunits
    - Balances vocabulary size and semantic meaning
-   - Better handles rare words and morphologically rich languages
+   - Better handles rare words
    - Popular methods include:
      - Byte-Pair Encoding (BPE)
      - WordPiece
@@ -115,10 +115,8 @@ And we continue like this until we reach the desired vocabulary size.
 
 Tokenization follows the training process closely, in the sense that new inputs are tokenized by applying the following steps:
 
-1. Normalization
-2. Pre-tokenization
-3. Splitting the words into individual characters
-4. Applying the merge rules learned in order on those splits
+1. Splitting the words into individual characters
+2. Applying the merge rules learned in order on those splits
 
 Let's take the example we used during training, with the three merge rules learned:
 
@@ -157,7 +155,7 @@ gpt2_tokenizer = AutoTokenizer.from_pretrained("gpt2")
 pre_tokenize_function = gpt2_tokenizer.backend_tokenizer.pre_tokenizer.pre_tokenize_str
 
 # pre tokenize
-pre_tokenized_corpus = [pre_tokenize_str(text) for text in corpus]
+pre_tokenized_corpus = [pre_tokenize_function(text) for text in corpus]
 ```
 
 We have the output
