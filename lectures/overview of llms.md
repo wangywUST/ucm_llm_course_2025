@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures  
-title: Overview of Large Language Models
+title: Overview of LLMs
 nav_order: 1
 usemathjax: true
 ---
