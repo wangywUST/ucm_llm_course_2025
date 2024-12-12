@@ -24,7 +24,7 @@ $$
 \newcommand{\perplexity}{\text{perplexity}}
 $$
 
-# Understanding Tokenization in Natural Language Processing
+# Understanding Tokenization in Language Models
 
 Tokenization is a fundamental concept in Natural Language Processing (NLP) that involves breaking down text into smaller units called tokens. These tokens can be words, subwords, or characters, depending on the tokenization strategy used. The choice of tokenization method can significantly impact a model's performance and its ability to handle various languages and vocabularies.
 

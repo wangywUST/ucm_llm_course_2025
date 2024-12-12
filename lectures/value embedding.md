@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Security
+title: Value Embedding
 nav_order: 3.2
 ---
 This lecture was delivered via slides. A link is available on [Canvas](https://canvas.stanford.edu/courses/149841/modules/items/1136975) and pdfs are [here](../assets/pdfs/Privacy pdf.pdf)

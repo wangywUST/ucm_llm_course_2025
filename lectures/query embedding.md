@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Harms II
+title: Query Embedding
 nav_order: 2.2
 usemathjax: true
 ---

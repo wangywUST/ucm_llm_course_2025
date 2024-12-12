@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Data
+title: Positional Embedding
 nav_order: 3
 usemathjax: true
 ---

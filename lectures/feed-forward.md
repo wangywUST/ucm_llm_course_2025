@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Adaptation
+title: Feed-Forward
 nav_order: 4.7
 usemathjax: true
 ---

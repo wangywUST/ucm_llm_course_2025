@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Modeling
+title: Multi-Head Attention
 nav_order: 4.2
 usemathjax: true
 ---

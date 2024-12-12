@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Harms I
+title: Token Embeddings
 nav_order: 2.2
 usemathjax: true
 ---

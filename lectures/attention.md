@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Legality
+title: Attention
 nav_order: 3.3
 usemathjax: true
 ---
