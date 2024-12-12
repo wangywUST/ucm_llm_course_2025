@@ -1,7 +1,7 @@
 ---
 layout: page
 parent: Lectures
-title: Decoding
+title: Pretraining
 nav_order: 4.7
 usemathjax: true
 ---
