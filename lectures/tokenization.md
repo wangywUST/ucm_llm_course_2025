@@ -111,9 +111,9 @@ Corpus: ("hug", 10), ("p" "ug", 5), ("p" "un", 12), ("b" "un", 4), ("hug" "s", 5
 
 And we continue like this until we reach the desired vocabulary size.
 
-## Tokenization Algorithm
+## Tokenization Inference
 
-Tokenization follows the training process closely, in the sense that new inputs are tokenized by applying the following steps:
+Tokenization inference follows the training process closely, in the sense that new inputs are tokenized by applying the following steps:
 
 1. Splitting the words into individual characters
 2. Applying the merge rules learned in order on those splits
@@ -256,7 +256,7 @@ After counting, the current pair with the highest frequency is: ('Ġ', 't'), occ
 
 ```python
 merge_rules = []
-best_pair = self._compute_most_score_pair(pair2score)
+best_pair = compute_most_score_pair(pair2score)
 vocabs.append(best_pair[0] + best_pair[1])
 merge_rules.append(best_pair)
 ```
@@ -303,11 +303,11 @@ We repeat this iterative process until the vocabulary size reaches our predefine
 
 ```python
 while len(vocabs) < vocab_size:
-    pair2score = self._compute_pair2score(word2splits, word2count)
-    best_pair = self._compute_most_score_pair(pair2score)
+    pair2score = compute_pair2score(word2splits, word2count)
+    best_pair = compute_most_score_pair(pair2score)
     vocabs.append(best_pair[0] + best_pair[1])
     merge_rules.append(best_pair)
-    word2splits = self._merge_pair(best_pair[0], best_pair[1], word2splits)
+    word2splits = merge_pair(best_pair[0], best_pair[1], word2splits)
 ```
 
 Let's say our target vocabulary size is 50. After the above iterations, we obtain the following vocabulary and merge rules:
@@ -332,11 +332,11 @@ Then, we apply the merge rules sequentially to form larger tokens
 ```python
 def tokenize(self, text: str) -> List[str]:
     # pre tokenize
-    words = [word for word, _ in self.pre_tokenize_str(text)]
+    words = [word for word, _ in pre_tokenize_str(text)]
     # split into char level
     splits = [[c for c in word] for word in words]
     # apply merge rules
-    for merge_rule in self.merge_rules:
+    for merge_rule in merge_rules:
         for index, split in enumerate(splits):
             i = 0
             while i < len(split) - 1:
