@@ -132,6 +132,8 @@ The word "bug" will be tokenized as `["b", "ug"]`. "mug", however, will be token
 
 Now let's take a look at an implementation of the BPE algorithm. This won't be an optimized version you can actually use on a big corpus; we just want to show you the code so you can understand the algorithm a little bit better.
 
+I present the colab link for you to reproduce this part's experiments easily: https://colab.research.google.com/drive/13F5T8aikeumAu2Oxpaabczvqhxkih8mF?usp=sharing
+
 ### Training BPE
 
 First we need a corpus, so let's create a simple one with a few sentences:
