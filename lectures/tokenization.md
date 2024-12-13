@@ -132,7 +132,7 @@ The word "bug" will be tokenized as `["b", "ug"]`. "mug", however, will be token
 
 Now let's take a look at an implementation of the BPE algorithm. This won't be an optimized version you can actually use on a big corpus; we just want to show you the code so you can understand the algorithm a little bit better.
 
-I present the colab link for you to reproduce this part's experiments easily: https://colab.research.google.com/drive/13F5T8aikeumAu2Oxpaabczvqhxkih8mF?usp=sharing
+I present the colab link for you to reproduce this part's experiments easily: [Colab BPE](https://colab.research.google.com/drive/13F5T8aikeumAu2Oxpaabczvqhxkih8mF?usp=sharing)
 
 ### Training BPE
 
@@ -332,7 +332,7 @@ First, we pre-tokenize the sentence and split it into character-level sequences
 Then, we apply the merge rules sequentially to form larger tokens
 
 ```python
-def tokenize(self, text: str) -> List[str]:
+def tokenize(text):
     # pre tokenize
     words = [word for word, _ in pre_tokenize_str(text)]
     # split into char level
