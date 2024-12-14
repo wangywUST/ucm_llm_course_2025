@@ -23,6 +23,10 @@ challenges.  In this course, students will learn the fundamentals about the
 modeling, theory, ethics, and systems aspects of large language models, as
 well as gain hands-on experience working with them.
 
+## The Goal of This Course
+
+Offering useful, fundemental, detailed LLM knowledge to students, which are useful in research but not accessible in most trending papers.
+
 ## Staff
 
 {% assign instructors = site.staffers | sort: 'index' %}
@@ -35,16 +39,16 @@ well as gain hands-on experience working with them.
 Your grade is based on two activities:
 
 1. In-Course Question Answering (50%)
-2. Assignments (50%)
+2. Final Projects (50%)
 
 ### In-Course Question Answering
 
 In each class, you will be asked some questions. Every student can only answer every question for one time. The student who correctly answer the question for the first time will be granted 1 credit. 
 The final scores will be calculated based on the accumulated credits in the whole semester.
 
-### Assignments
+### Final Projects
 
-There will be five assignments in the whole semester. Every assignment has a deadline, students should submit the completed assignment to a Google form before the deadline.
+Every student should complete a final project related to LLMs and present it in the final classes.
 
 <!-- ## Logistics
 

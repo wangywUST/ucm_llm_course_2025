@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Assignments
+title: Projects
 nav_order: 7
 ---
-# Assignments
+# Projects
 
 [Assignment 1](../projects/CS324_P1.pdf)
 
